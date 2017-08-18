@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "Setting Up Apache conf..."
+
+rm /usr/local/apache2/conf/extra/httpd-vhosts.conf
+
+sed -e s/DOMAIN/$DOMAIN/ /tmp/vhosts.conf > /usr/local/apache2/conf/extra/httpd-vhosts.conf
+
+echo "Done."
+
+exec httpd-foreground
