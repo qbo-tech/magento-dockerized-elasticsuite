@@ -1,0 +1,53 @@
+version: "2"
+services:
+  elasticsearch:
+    build: ./elastic-magento
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 6g
+    volumes:
+      - /usr/share/elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    restart: always
+  logstash:
+    build: ./logstash-magento
+    ports:
+      - "5000:5000"
+    environment:
+      LS_JAVA_OPTS: "-Xmx512m -Xms512m"
+    links:
+      - "elasticsearch:elasticsearch"
+    volumes_from:
+      - logdata
+    restart: always
+
+  apache:
+    build: ./apache-magento-tracker
+    volumes_from: 
+      - logdata
+    ports:
+      - "80:80"
+    environment:
+      - DOMAIN=t.ph.com
+    restart: always
+
+  logdata:
+    image: tianon/true
+    volumes:
+      - /var/log/smile_searchandising_suite/apache_raw_events
+      - /var/log/apache2
+  newrelic:
+    image: s12v/newrelic-elasticsearch
+    links:
+      - elasticsearch
+    environment:
+      - ES_HOST=elasticsearch
+      - NEW_RELIC_LICENSE_KEY=789db5d562f0e7b0ecaca0a54a593afffc89af98
+
