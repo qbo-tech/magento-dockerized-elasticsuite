@@ -49,5 +49,5 @@ services:
       - elasticsearch
     environment:
       - ES_HOST=elasticsearch
-      - NEW_RELIC_LICENSE_KEY=789db5d562f0e7b0ecaca0a54a593afffc89af98
+      - NEW_RELIC_LICENSE_KEY=
 
