@@ -1,7 +1,7 @@
 from elasticsearch:1.5
 
 COPY start.sh /usr/bin/start.sh
-COPY es-conf-templates/logging.yml /etc/elasticsearch/
+COPY es-conf-templates/logging.yml /usr/share/elasticsearch/config/
 COPY es-conf-templates/elasticsearch.yml /tmp/
 
 RUN chmod +x /usr/bin/start.sh

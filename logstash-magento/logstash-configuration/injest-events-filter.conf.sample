@@ -97,6 +97,21 @@ filter {
                     drop {}
                 }
 
+            } else if [trackingParams][page.type.identifier] == "checkout_cart_add" {
+
+                mutate { add_field => { "event_type" => "cart" "entity_type" => "product" "entity_id" => "%{[trackingParams][page.product.sku]}"} }
+                if "_grokparsefailure" in [tags] {
+                    drop {}
+                }
+
+            } else if [trackingParams][page.type.identifier] == "wishlist_product_add" {
+
+                mutate { add_field => { "event_type" => "wishlist" "entity_type" => "product" "entity_id" => "%{[trackingParams][page.product.sku]}"} }
+
+                if "_grokparsefailure" in [tags] {
+                    drop {}
+                }
+
             } else {
                 drop {}
             }
