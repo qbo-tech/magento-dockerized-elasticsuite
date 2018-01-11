@@ -15,6 +15,6 @@ RUN /usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-ana
 RUN /usr/share/elasticsearch/bin/plugin -r analysis-phonetic
 RUN /usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-analysis-phonetic/2.5.0
 
-CMD ["/usr/bin/start.sh"]
+ENTRYPOINT ["/usr/bin/start.sh"]
 CMD ["elasticsearch"]
 
